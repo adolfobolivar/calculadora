@@ -39,8 +39,7 @@ calc.calcular(2, "+", 3)  # 5
 ```
 
 Si un operando no es numérico se lanza `TypeError`. Dividir entre cero lanza
-`ZeroDivisionError`. Si el operador no es
-soportado se lanza `ValueError`.
+`ZeroDivisionError`. Si el operador no es soportado se lanza `ValueError`.
 
 ## Pruebas
 
@@ -57,8 +56,8 @@ Las pruebas (`test_calculadora.py`) incluyen:
 
 ## Cómo agregar una operación
 
-1. Crea el método en `Calculadora` (por ejemplo `dividir`).
-2. Regístralo en `OPERACIONES` (`"/": "dividir"`).
+1. Crea el método en `Calculadora` (por ejemplo `multiplicar`).
+2. Regístralo en `OPERACIONES` (`"*": "multiplicar"`).
 3. Agrega su clase de pruebas en `test_calculadora.py` (hay plantillas al final del archivo).
 4. Ejecuta `python3 -m unittest -v`.
 
