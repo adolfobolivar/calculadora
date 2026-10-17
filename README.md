@@ -1,7 +1,7 @@
 # Calculadora
 
-Calculadora sencilla en Python que suma, resta y divide. Está pensada como base para
-agregar más operaciones (raíz cuadrada, potencia, etc.) con una suite de pruebas
+Calculadora sencilla en Python que suma y resta. Está pensada como base para
+agregar más operaciones (división, raíz cuadrada, etc.) con una suite de pruebas
 que crece junto con el código.
 
 ## Requisitos
@@ -18,7 +18,7 @@ python3 calculadora.py
 ```
 
 ```
-Calculadora (+, -, /). Escribe 'salir' para terminar.
+Calculadora (+, -). Escribe 'salir' para terminar.
 > 2 + 3
 5.0
 > 10 - 4
@@ -34,12 +34,11 @@ from calculadora import Calculadora
 calc = Calculadora()
 calc.sumar(2, 3)          # 5
 calc.restar(10, 4)        # 6
-calc.dividir(7, 2)        # 3.5
 calc.calcular(2, "+", 3)  # 5
 ```
 
-Si un operando no es numérico se lanza `TypeError`. Dividir entre cero lanza
-`ZeroDivisionError`. Si el operador no es soportado se lanza `ValueError`.
+Si un operando no es numérico se lanza `TypeError`. Si el operador no es
+soportado se lanza `ValueError`.
 
 ## Pruebas
 
@@ -52,12 +51,12 @@ Las pruebas (`test_calculadora.py`) incluyen:
 - **Casos tabulados** por operación: enteros, negativos, decimales y números grandes.
 - **Propiedades matemáticas**: conmutatividad, asociatividad, `x - x = 0`, resta como inversa de la suma.
 - **Validación genérica**: toda operación registrada en `Calculadora.OPERACIONES` se prueba automáticamente contra entradas inválidas.
-- **Plantillas** comentadas para futuras pruebas de raíz cuadrada.
+- **Plantillas** comentadas para futuras pruebas de división y raíz cuadrada.
 
 ## Cómo agregar una operación
 
-1. Crea el método en `Calculadora` (por ejemplo `multiplicar`).
-2. Regístralo en `OPERACIONES` (`"*": "multiplicar"`).
+1. Crea el método en `Calculadora` (por ejemplo `dividir`).
+2. Regístralo en `OPERACIONES` (`"/": "dividir"`).
 3. Agrega su clase de pruebas en `test_calculadora.py` (hay plantillas al final del archivo).
 4. Ejecuta `python3 -m unittest -v`.
 
