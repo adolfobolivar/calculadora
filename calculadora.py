@@ -21,10 +21,17 @@ class Calculadora:
         _validar(a, b)
         return a - b
 
-    # Mapa símbolo -> nombre de método; añade aquí '/', 'sqrt', etc.
+    def dividir(self, a, b):
+        _validar(a, b)
+        if b == 0:
+            raise ZeroDivisionError("No se puede dividir entre cero")
+        return a / b
+
+    # Mapa símbolo -> nombre de método; añade aquí 'sqrt', etc.
     OPERACIONES = {
         "+": "sumar",
         "-": "restar",
+        "/": "dividir",
     }
 
     def calcular(self, a, operador, b):
@@ -35,7 +42,7 @@ class Calculadora:
 
 def main():
     calc = Calculadora()
-    print("Calculadora (+, -). Escribe 'salir' para terminar.")
+    print("Calculadora (+, -, /). Escribe 'salir' para terminar.")
     while True:
         entrada = input("> ").strip()
         if entrada.lower() == "salir":
@@ -43,6 +50,8 @@ def main():
         try:
             a, op, b = entrada.split()
             print(calc.calcular(float(a), op, float(b)))
+        except ZeroDivisionError as e:
+            print(f"Error: {e}")
         except ValueError as e:
             print(f"Error: {e}. Formato esperado: 2 + 3")
 
