@@ -123,23 +123,62 @@ class TestCalcular(BaseCalculadoraTest):
                 self.assertTrue(callable(getattr(self.calc, nombre, None)))
 
     def test_operador_no_soportado(self):
-        for op in ["*", "%", "", "suma"]:
+        for op in ["*", "%", "", "suma", "//"]:
             with self.subTest(op=op):
                 with self.assertRaises(ValueError):
                     self.calc.calcular(1, op, 2)
 
 
+class TestDivision(BaseCalculadoraTest):
+    CASOS = [
+        (6, 3, 2),
+        (1, 4, 0.25),
+        (-6, 3, -2),
+        (6, -3, -2),
+        (-6, -3, 2),
+        (0, 5, 0),
+        (7, 1, 7),                 # elemento neutro
+        (7, 2, 3.5),               # división real, no entera
+        (1, 3, 0.333333333333),
+        (2.5, 0.5, 5.0),
+        (10**18, 10**9, 10**9),
+    ]
+
+    def test_casos(self):
+        for a, b, esperado in self.CASOS:
+            with self.subTest(a=a, b=b):
+                self.assertAlmostEqual(self.calc.dividir(a, b), esperado, places=9)
+
+    def test_division_por_cero(self):
+        for a, b in [(1, 0), (0, 0), (-5, 0), (1, 0.0), (1.5, -0.0)]:
+            with self.subTest(a=a, b=b):
+                with self.assertRaises(ZeroDivisionError):
+                    self.calc.dividir(a, b)
+
+    def test_dividir_por_si_mismo_es_uno(self):
+        for x in [1, 7, -3, 2.5]:
+            with self.subTest(x=x):
+                self.assertEqual(self.calc.dividir(x, x), 1)
+
+    def test_inversa_de_multiplicar(self):
+        for a, b in [(10, 4), (-9, 3), (1.5, 0.25)]:
+            with self.subTest(a=a, b=b):
+                self.assertAlmostEqual(self.calc.dividir(a, b) * b, a)
+
+    def test_no_conmutativa(self):
+        self.assertNotEqual(self.calc.dividir(6, 3), self.calc.dividir(3, 6))
+
+    def test_infinito(self):
+        self.assertEqual(self.calc.dividir(1, math.inf), 0)
+        self.assertEqual(self.calc.dividir(math.inf, 2), math.inf)
+
+    def test_via_calcular(self):
+        self.assertEqual(self.calc.calcular(8, "/", 2), 4)
+        with self.assertRaises(ZeroDivisionError):
+            self.calc.calcular(8, "/", 0)
+
+
 # --- Plantilla para futuras operaciones -------------------------------------
-# class TestDivision(BaseCalculadoraTest):
-#     CASOS = [(6, 3, 2), (1, 4, 0.25), (-6, 3, -2)]
-#
-#     def test_casos(self):
-#         self.verificar_casos(self.calc.dividir, self.CASOS)
-#
-#     def test_division_por_cero(self):
-#         with self.assertRaises(ZeroDivisionError):
-#             self.calc.dividir(1, 0)
-#
 # class TestRaizCuadrada(BaseCalculadoraTest):
 #     # Operación unaria: no usar verificar_casos de dos argumentos.
 #     def test_negativo(self):
